@@ -1,0 +1,7 @@
+# Archivos que no se publican en la página
+Claude outputs/
+.impeccable/
+.vscode/
+# Videos pesados: solo se publican los clips que usa la página
+videos/*
+!videos/clips/

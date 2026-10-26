@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EcoAventura | Un mundo mejor también se juega</title>
+
+    <meta name="description"
+        content="EcoAventura es un videojuego de plataformas 2D en pixel art: ayuda a ManyPig a limpiar la playa, el desierto, la jungla y el reino helado, vence a cinco jefes y salva a la Princesa Aurora.">
+    <meta name="theme-color" content="#1a3826">
+
+    <!-- Vista previa al compartir el enlace (WhatsApp, Facebook, X, Discord) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="EcoAventura">
+    <meta property="og:title" content="EcoAventura | Un mundo mejor también se juega">
+    <meta property="og:description" content="Videojuego de plataformas 2D en pixel art: ayuda a ManyPig a limpiar la isla, recicla y vence a los jefes.">
+    <meta property="og:url" content="https://alonsorg4.github.io/ecoaventura-web/">
+    <meta property="og:image" content="https://alonsorg4.github.io/ecoaventura-web/img/vista-previa.jpg">
+    <meta property="og:image:width" content="1280">
+    <meta property="og:image:height" content="720">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/png" href="img/juego/collectibles_coin_gold.png">
+
+    <!-- Fuentes locales (Pixelify Sans y Lexend, licencia OFL) -->
+    <link rel="preload" href="fonts/pixelify-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/lexend-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body data-zona="playa">
+
+    <a class="saltar-contenido" href="#trailer">Saltar al contenido</a>
+
+    <!-- Iconos pixel (cuadrícula de 8×8) que se reutilizan en toda la página -->
+    <svg class="iconos" aria-hidden="true" focusable="false">
+        <symbol id="i-descarga" viewBox="0 0 8 8"><path d="M3 0h2v3h2v1H6v1H5v1H3V5H2V4H1V3h2zM0 7h8v1H0z" /></symbol>
+        <symbol id="i-abajo" viewBox="0 0 8 8"><path d="M3 0h2v4h2v1H6v1H5v1H3V6H2V5H1V4h2z" /></symbol>
+        <symbol id="i-izquierda" viewBox="0 0 8 8"><path d="M4 0h2v2H5v1H4v2h1v1h1v2H4V7H3V6H2V5H1V3h1V2h1V1h1z" /></symbol>
+        <symbol id="i-derecha" viewBox="0 0 8 8"><path d="M2 0h2v1h1v1h1v1h1v2H6v1H5v1H4v1H2V6h1V5h1V3H3V2H2z" /></symbol>
+        <symbol id="i-cerrar" viewBox="0 0 8 8"><path d="M0 0h2v1h1v1h2V1h1V0h2v2H7v1H6v2h1v1h1v2H6V7H5V6H3v1H2v1H0V6h1V5h1V3H1V2H0z" /></symbol>
+        <symbol id="i-play" viewBox="0 0 8 8"><path d="M2 0h1v8H2zM3 1h1v6H3zM4 2h1v4H4zM5 3h1v2H5z" /></symbol>
+        <symbol id="i-pausa" viewBox="0 0 8 8"><path d="M1 1h2v6H1zM5 1h2v6H5z" /></symbol>
+        <symbol id="i-sonido" viewBox="0 0 8 8"><path d="M0 3h2v2H0zM2 2h1v4H2zM3 1h1v6H3zM5 2h1v1H5zM6 3h1v2H6zM5 5h1v1H5z" /></symbol>
+        <symbol id="i-mudo" viewBox="0 0 8 8"><path d="M0 3h2v2H0zM2 2h1v4H2zM3 1h1v6H3zM5 2h1v1H5zM7 2h1v1H7zM6 3h1v2H6zM5 5h1v1H5zM7 5h1v1H7z" /></symbol>
+    </svg>
+
+    <!-- =====================================================
+         NAVEGACIÓN: el HUD del juego
+    ====================================================== -->
+    <header class="navbar" id="navbar">
+        <div class="navbar__barra">
+
+            <a class="marca" href="#inicio" aria-label="EcoAventura, ir al inicio">
+                <span class="marca__retrato" aria-hidden="true"></span>
+                <span class="marca__texto">ECO AVENTURA</span>
+            </a>
+
+            <nav class="navbar__menu" id="menu-principal" aria-label="Secciones">
+                <ul>
+                    <li><a href="#trailer">Tráiler</a></li>
+                    <li><a href="#juego">El juego</a></li>
+                    <li><a href="#viaje">Niveles</a></li>
+                    <li><a href="#jefes">Jefes</a></li>
+                    <li><a href="#manypig">ManyPig</a></li>
+                    <li><a href="#reciclaje">Reciclaje</a></li>
+                    <li><a href="#como-jugar">Controles</a></li>
+                    <li><a href="#galeria">Galería</a></li>
+                </ul>
+                <a class="btn btn--primario btn--chico" href="#descargar">
+                    <svg class="icono" aria-hidden="true"><use href="#i-descarga" /></svg>
+                    <span>Descarga</span>
+                </a>
+            </nav>
+
+            <!-- Sonido: siempre empieza apagado -->
+            <div class="audio" id="audio">
+                <button class="audio__btn" id="btn-sonido" type="button" aria-pressed="false">
+                    <svg class="icono audio__icono audio__icono--on" aria-hidden="true"><use href="#i-sonido" /></svg>
+                    <svg class="icono audio__icono audio__icono--off" aria-hidden="true"><use href="#i-mudo" /></svg>
+                    <span class="audio__ecualizador" aria-hidden="true"><i></i><i></i><i></i></span>
+                    <span class="audio__estado" id="sonido-estado">Sonido: no</span>
+                </button>
+                <label class="audio__volumen" for="volumen">
+                    <span class="solo-lector">Volumen</span>
+                    <input type="range" id="volumen" min="0" max="100" step="5" value="50">
+                </label>
+            </div>
+
+            <button class="navbar__menu-btn" type="button" aria-expanded="false" aria-controls="menu-principal">
+                <span class="navbar__menu-icono" aria-hidden="true"></span>
+                Menú
+            </button>
+        </div>
+
+        <!-- Barra de progreso: imita el "% de zona limpia" del juego -->
+        <div class="exploracion" aria-hidden="true">
+            <span class="exploracion__etiqueta">ISLA EXPLORADA</span>
+            <span class="exploracion__zona" id="exploracion-zona">PLAYA</span>
+            <span class="exploracion__barra"><span class="exploracion__relleno" id="exploracion-relleno"></span></span>
+            <span class="exploracion__valor" id="exploracion-valor">0%</span>
+        </div>
+    </header>
+
+
+    <main>
+
+        <!-- =====================================================
+             1. PORTADA: la playa del nivel 1
+        ====================================================== -->
+        <section class="hero" id="inicio" aria-labelledby="titulo-juego" data-ambiente="playa" data-hud="PLAYA">
+
+            <!-- Capas reales del fondo del nivel 1 (mismo orden que en Godot) -->
+            <div class="hero__escena" aria-hidden="true">
+                <div class="capa capa--cielo"></div>
+                <div class="hero__sol"></div>
+                <div class="capa capa--nubes-chicas" data-parallax="0.1" data-profundidad="4"><div class="capa__tira"></div></div>
+                <div class="capa capa--nubes-medianas" data-parallax="0.25" data-profundidad="8"><div class="capa__tira"></div></div>
+                <div class="capa capa--nubes-grandes" data-parallax="0.25" data-profundidad="12"><div class="capa__tira"></div></div>
+                <div class="capa capa--mar" data-parallax="0.5" data-profundidad="16"><div class="capa__tira"></div></div>
+                <div class="capa capa--arena" data-parallax="0.75" data-profundidad="22"><div class="capa__tira"></div></div>
+
+                <div class="hero__objetos" data-parallax="0.75" data-profundidad="22">
+                    <img class="objeto objeto--palma" src="img/juego/vegetation_tree_palm1.png" alt="" width="96" height="96">
+                    <img class="objeto objeto--palma-2" src="img/juego/vegetation_tree_palm2.png" alt="" width="96" height="96">
+                    <img class="objeto objeto--pasto" src="img/juego/vegetation_grass_small1.png" alt="" width="32" height="32">
+                    <img class="objeto objeto--lata" src="img/juego/basura_plastico.png" alt="" width="109" height="192">
+                    <img class="objeto objeto--carton" src="img/juego/basura_carton.png" alt="" width="194" height="192">
+                    <span class="objeto objeto--moneda sprite sprite--moneda"></span>
+                    <span class="objeto objeto--cangrejo sprite sprite--cangrejo"></span>
+                </div>
+
+                <div class="hero__manypig" id="hero-manypig">
+                    <span class="sprite sprite--manypig" data-anim="idle"></span>
+                </div>
+
+                <canvas class="particulas" data-particulas="brillo"></canvas>
+                <div class="hero__velo"></div>
+            </div>
+
+            <div class="hero__contenido">
+                <h1 class="logotipo" id="titulo-juego">
+                    <span class="solo-lector">ECO AVENTURA</span>
+                    <span class="logotipo__linea" aria-hidden="true"><span>E</span><span>C</span><span>O</span></span>
+                    <span class="logotipo__linea" aria-hidden="true"><span>A</span><span>V</span><span>E</span><span>N</span><span>T</span><span>U</span><span>R</span><span>A</span></span>
+                </h1>
+
+                <p class="hero__menu">Protege la naturaleza · Recicla · Aventúrate</p>
+                <p class="hero__lema">Un mundo mejor también se juega.</p>
+
+                <div class="panel panel--hud hero__panel">
+                    <p>
+                        La basura cubrió la playa, el desierto, la jungla y el reino helado.
+                        Ayuda a <strong>ManyPig</strong> a limpiarlos, vence a cinco jefes y
+                        llega al castillo donde espera la <strong>Princesa Aurora</strong>.
+                    </p>
+                </div>
+
+                <div class="hero__acciones">
+                    <a class="btn btn--primario btn--brillo" href="#trailer" data-sfx="moneda">
+                        <svg class="icono" aria-hidden="true"><use href="#i-play" /></svg>
+                        Ver el tráiler
+                    </a>
+                    <a class="btn btn--secundario" href="#viaje">Recorrer los niveles</a>
+                </div>
+
+                <ul class="hero__datos">
+                    <li>5 zonas</li>
+                    <li>5 jefes</li>
+                    <li>19 tipos de basura</li>
+                    <li>Hecho en Godot</li>
+                </ul>
+            </div>
+
+            <a class="hero__desliza" href="#trailer">
+                <span>Desliza para explorar</span>
+                <svg class="icono" aria-hidden="true"><use href="#i-abajo" /></svg>
+            </a>
+        </section>
+
+
+        <!-- =====================================================
+             2. TRÁILER
+             El enlace de YouTube se configura en js/config.js
+             (variable trailerYouTube). No hace falta tocar este HTML.
+        ====================================================== -->
+        <section class="seccion seccion--cine" id="trailer" aria-labelledby="titulo-trailer" data-ambiente="playa" data-hud="TRÁILER">
+            <div class="contenedor cine">
+                <div class="cine__texto revelar">
+                    <h2 class="titulo titulo--oro" id="titulo-trailer">Mira el tráiler</h2>
+                    <p class="destacado">
+                        Playa, desierto, jungla, reino helado y el castillo del Verdugo:
+                        todo en un minuto de juego real.
+                    </p>
+                </div>
+
+                <figure class="trailer revelar" id="trailer-marco" data-estado="vacio">
+                    <div class="trailer__pantalla" id="trailer-pantalla">
+                        <img class="trailer__poster" src="img/capturas/v2/menu-principal.webp" width="1280" height="720"
+                            loading="lazy" alt="">
+
+                        <!-- Se muestra mientras no haya enlace de YouTube -->
+                        <div class="trailer__aviso" id="trailer-aviso">
+                            <span class="trailer__chapa">Próximamente</span>
+                            <p class="trailer__frase">El tráiler oficial se estrenará aquí.</p>
+                        </div>
+
+                        <!-- Se muestra cuando hay enlace de YouTube -->
+                        <button class="trailer__play" id="trailer-play" type="button" hidden>
+                            <span class="trailer__play-boton">
+                                <svg class="icono" aria-hidden="true"><use href="#i-play" /></svg>
+                            </span>
+                            <span class="trailer__play-texto">Reproducir el tráiler</span>
+                        </button>
+                    </div>
+                    <figcaption class="trailer__pie" id="trailer-pie">
+                        Imagen: menú principal del juego.
+                    </figcaption>
+                </figure>
+            </div>
+        </section>
+
+
+        <!-- =====================================================
+             3. EL JUEGO: historia, misión y reciclaje
+        ====================================================== -->
+        <section class="seccion seccion--arena" id="juego" aria-labelledby="titulo-historia" data-ambiente="playa" data-hud="LA ISLA">
+            <div class="contenedor historia">
+
+                <div class="historia__texto revelar">
+                    <h2 class="titulo" id="titulo-historia">La isla pide ayuda</h2>
+
+                    <p class="destacado">
+                        La contaminación lo cubrió todo: la arena, las dunas, el río de la
+                        jungla y la nieve de las montañas.
+                    </p>
+                    <p>
+                        <strong>ManyPig</strong>, un cerdito valiente, decide limpiar su
+                        hogar. Cada basura que recoge y separa se convierte en
+                        <strong>EcoMonedas</strong>, que puede gastar en la
+                        <strong>Tienda Ecológica</strong> para resistir más.
+                    </p>
+                    <p>
+                        Al final del camino está el castillo del <strong>Verdugo del Hielo</strong>,
+                        que encerró a la Princesa Aurora, la única capaz de purificar el reino.
+                    </p>
+
+                    <ul class="ods" aria-label="Objetivos de Desarrollo Sostenible">
+                        <li class="ods__item">
+                            <span class="ods__num">ODS 12</span>
+                            <span>Producción y consumo responsables</span>
+                        </li>
+                        <li class="ods__item">
+                            <span class="ods__num">ODS 4</span>
+                            <span>Educación de calidad</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <figure class="captura captura--grande revelar">
+                    <img src="img/capturas/v2/registro-basura.webp" width="1280" height="720" loading="lazy"
+                        srcset="img/capturas/v2/registro-basura-640.webp 640w, img/capturas/v2/registro-basura.webp 1280w"
+                        sizes="(max-width: 960px) 100vw, 640px"
+                        alt="Captura del juego: ventana del Registro de basura con la ficha de la lata de refresco, su contenedor, cuánto tarda en degradarse y qué hacer con ella.">
+                    <figcaption>Cada basura nueva abre su ficha en el Registro de basura.</figcaption>
+                </figure>
+            </div>
+
+            <!-- La misión: los pasos reales de cada nivel -->
+            <div class="contenedor">
+                <h3 class="subtitulo revelar">Tu misión en cada nivel</h3>
+
+                <ol class="mision">
+                    <li class="mision__paso revelar">
+                        <span class="mision__sprite"><span class="sprite sprite--moneda" aria-hidden="true"></span></span>
+                        <h4>Recoge</h4>
+                        <p>Junta todas las monedas y toda la basura. El HUD lleva la cuenta.</p>
+                    </li>
+                    <li class="mision__paso revelar">
+                        <span class="mision__sprite"><img src="img/juego/basura_metal.png" alt="" width="124" height="192"></span>
+                        <h4>Separa</h4>
+                        <p>Cada residuo va a su contenedor: plástico, cartón, metal, vidrio, peligroso o especial.</p>
+                    </li>
+                    <li class="mision__paso revelar">
+                        <span class="mision__sprite"><span class="sprite sprite--jefe sprite--mision" data-jefe="rey-cactus" data-anim="idle" aria-hidden="true"></span></span>
+                        <h4>Vence al jefe</h4>
+                        <p>Cada zona tiene un jefe. Fíjate en sus avisos antes de cada ataque.</p>
+                    </li>
+                    <li class="mision__paso revelar">
+                        <span class="mision__sprite"><span class="sprite sprite--portal" aria-hidden="true"></span></span>
+                        <h4>Abre el portal</h4>
+                        <p>Con la misión completa, el portal te lleva al siguiente nivel.</p>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+
+        <!-- =====================================================
+             4. EL VIAJE: los cinco niveles
+             El fondo cambia de zona según el nivel que se ve.
+        ====================================================== -->
+        <section class="viaje" id="viaje" aria-labelledby="titulo-viaje">
+
+            <div class="viaje__pista">
+
+                <!-- Escenario fijo: capas reales de cada nivel -->
+                <div class="viaje__escenario">
+                    <div class="viaje__fondos" aria-hidden="true">
+                        <div class="zona zona--playa activa" data-zona="playa">
+                            <div class="zona__capa" data-img="img/juego/background_sky.png"></div>
+                            <div class="zona__capa zona__capa--tira" data-velocidad="0.1" data-img="img/juego/background_clouds_small.png"></div>
+                            <div class="zona__capa zona__capa--tira" data-velocidad="0.25" data-img="img/juego/background_clouds_big.png"></div>
+                            <div class="zona__capa zona__capa--tira" data-velocidad="0.5" data-img="img/juego/background_ocean.png"></div>
+                            <div class="zona__capa zona__capa--tira" data-velocidad="0.75" data-img="img/juego/background_sand.png"></div>
+                        </div>
+                        <div class="zona zona--desierto" data-zona="desierto">
+                            <div class="zona__capa" data-img="img/zonas/desierto/desert_bg_sky.png"></div>
+                            <div class="zona__sol"></div>
+                            <div class="zona__capa zona__capa--tira" data-velocidad="0.15" data-img="img/zonas/desierto/desert_bg_mesas.png"></div>
+                            <div class="zona__capa zona__capa--tira" data-velocidad="0.3" data-img="img/zonas/desierto/desert_bg_dunes_02.png"></div>
+                            <div class="zona__capa zona__capa--tira" data-velocidad="0.5" data-img="img/zonas/desierto/desert_bg_dunes_01.png"></div>
+                        </div>
+                        <div class="zona zona--jungla" data-zona="jungla">
+                            <div class="zona__capa" data-img="img/zonas/jungla/jungla_capa_0.png"></div>
+                            <div class="zona__capa zona__capa--tira" data-velocidad="0.1" data-img="img/zonas/jungla/jungla_capa_1.png"></div>
+                            <div class="zona__capa zona__capa--tira" data-velocidad="0.2" data-img="img/zonas/jungla/jungla_capa_2.png"></div>
+                            <div class="zona__capa zona__capa--tira" data-velocidad="0.35" data-img="img/zonas/jungla/jungla_capa_3.png"></div>
+                            <div class="zona__capa zona__capa--tira" data-velocidad="0.5" data-img="img/zonas/jungla/jungla_capa_4.png"></div>
+                            <div class="zona__capa zona__capa--tira" data-velocidad="0.7" data-img="img/zonas/jungla/jungla_capa_5.png"></div>
+                        </div>
+                        <div class="zona zona--helado" data-zona="helado">
+                            <div class="zona__capa" data-img="img/zonas/helado/cielo_noche.png"></div>
+                            <div class="zona__capa zona__capa--tira" data-velocidad="0.04" data-img="img/zonas/helado/montana_1.png"></div>
+                            <div class="zona__capa zona__capa--tira" data-velocidad="0.08" data-img="img/zonas/helado/montana_2.png"></div>
+                            <div class="zona__capa zona__capa--tira" data-velocidad="0.14" data-img="img/zonas/helado/montana_3.png"></div>
+                            <div class="zona__capa zona__capa--tira" data-velocidad="0.22" data-img="img/zonas/helado/montana_4.png"></div>
+                            <div class="zona__capa zona__capa--tira" data-velocidad="0.32" data-img="img/zonas/helado/montana_5.png"></div>
+                            <div class="zona__capa zona__capa--tira" data-velocidad="0.45" data-img="img/zonas/helado/montana_6.png"></div>
+                        </div>
+                        <div class="zona zona--castillo" data-zona="castillo">
+                            <div class="zona__capa zona__capa--salon" data-img="img/zonas/castillo/castillo_salon.png"></div>
+                            <div class="zona__capa zona__capa--tira zona__capa--niebla" data-velocidad="0.4" data-img="img/zonas/helado/niebla.png"></div>
+                        </div>
+
+                        <canvas class="particulas" data-particulas="playa" id="particulas-viaje"></canvas>
+                        <div class="viaje__vineta"></div>
+                    </div>
+
+                    <!-- Mapa del viaje: ManyPig avanza de nivel en nivel -->
+                    <nav class="mapa" aria-label="Ir a un nivel">
+                        <ol class="mapa__lista">
+                            <li><a class="mapa__nodo" href="#nivel-playa" data-zona="playa" aria-current="step"><span class="mapa__num">1</span><span class="mapa__nombre">Playa</span></a></li>
+                            <li><a class="mapa__nodo" href="#nivel-desierto" data-zona="desierto"><span class="mapa__num">2</span><span class="mapa__nombre">Desierto</span></a></li>
+                            <li><a class="mapa__nodo" href="#nivel-jungla" data-zona="jungla"><span class="mapa__num">3</span><span class="mapa__nombre">Jungla</span></a></li>
+                            <li><a class="mapa__nodo" href="#nivel-helado" data-zona="helado"><span class="mapa__num">4</span><span class="mapa__nombre">Reino helado</span></a></li>
+                            <li><a class="mapa__nodo" href="#nivel-castillo" data-zona="castillo"><span class="mapa__num">5</span><span class="mapa__nombre">Castillo</span></a></li>
+                        </ol>
+                        <span class="mapa__camino" aria-hidden="true"><span class="mapa__avance" id="mapa-avance"></span></span>
+                        <span class="mapa__manypig" id="mapa-manypig" aria-hidden="true"><span class="sprite sprite--manypig" data-anim="idle"></span></span>
+                    </nav>
+                </div>
+
+                <!-- Los niveles -->
+                <div class="viaje__niveles">
+
+                    <div class="viaje__intro">
+                        <h2 class="titulo viaje__titulo" id="titulo-viaje">Cinco zonas por limpiar</h2>
+                        <p class="panel panel--hud viaje__lead">
+                            Cada nivel tiene su propio mundo, sus trampas, su basura y su jefe.
+                            Las imágenes y los videos son tomas reales del juego.
+                        </p>
+                    </div>
+
+                    <article class="nivel" id="nivel-playa" data-zona="playa" aria-labelledby="t-playa">
+                        <div class="nivel__panel panel panel--hud">
+                            <h3 class="nivel__titulo" id="t-playa"><span class="nivel__num">Nivel 1</span> Playa sepultada</h3>
+                            <p>
+                                Arena, palmeras e islas flotantes cubiertas de latas, cajas y bolsas.
+                                Aquí aprendes a recoger, separar y saltar entre plataformas.
+                            </p>
+                            <dl class="nivel__datos">
+                                <div><dt>Monedas</dt><dd>14</dd></div>
+                                <div><dt>Basura</dt><dd>18</dd></div>
+                                <div><dt>Jefe</dt><dd>Saqueador de la costa</dd></div>
+                            </dl>
+                            <p class="nivel__peligros"><strong>Peligros:</strong> lanzas, cangrejos patrulleros y tiradores.</p>
+                            <div class="nivel__basura">
+                                <span class="nivel__basura-titulo">Basura de la zona</span>
+                                <ul>
+                                    <li><img src="img/juego/basura_plastico.png" alt="Lata de refresco" width="109" height="192" loading="lazy"></li>
+                                    <li><img src="img/juego/basura_general.png" alt="Bolsa de basura revuelta" width="219" height="192" loading="lazy"></li>
+                                    <li><img src="img/juego/basura_carton.png" alt="Caja de cartón" width="194" height="192" loading="lazy"></li>
+                                    <li><img src="img/juego/basura_metal.png" alt="Lata de conserva" width="124" height="192" loading="lazy"></li>
+                                </ul>
+                            </div>
+                            <button class="enlace-jefe" type="button" data-abrir-jefe="saqueador">
+                                Ver al jefe <svg class="icono" aria-hidden="true"><use href="#i-derecha" /></svg>
+                            </button>
+                        </div>
+                        <figure class="nivel__video">
+                            <div class="clip">
+                                <video muted loop playsinline preload="none" poster="img/capturas/v2/playa-islas-640.webp"
+                                    aria-label="Toma real del nivel 1: ManyPig salta entre islas de arena sobre el mar.">
+                                    <source src="videos/clips/playa.mp4" type="video/mp4">
+                                </video>
+                                <button class="clip__btn" type="button" aria-pressed="false">
+                                    <svg class="icono clip__icono-play" aria-hidden="true"><use href="#i-play" /></svg>
+                                    <svg class="icono clip__icono-pausa" aria-hidden="true"><use href="#i-pausa" /></svg>
+                                    <span class="clip__texto">Reproducir</span>
+                                </button>
+                            </div>
+                        </figure>
+                    </article>
+
+                    <article class="nivel" id="nivel-desierto" data-zona="desierto" aria-labelledby="t-desierto">
+                        <div class="nivel__panel panel panel--hud">
+                            <h3 class="nivel__titulo" id="t-desierto"><span class="nivel__num">Nivel 2</span> Desierto</h3>
+                            <p>
+                                Sol, dunas y mesetas llenas de llantas, pilas y botellas. Las plataformas
+                                de arenisca se desmoronan y las arenas movedizas te frenan.
+                            </p>
+                            <dl class="nivel__datos">
+                                <div><dt>Monedas</dt><dd>20</dd></div>
+                                <div><dt>Basura</dt><dd>17</dd></div>
+                                <div><dt>Jefe</dt><dd>Rey Cactus</dd></div>
+                            </dl>
+                            <p class="nivel__peligros"><strong>Peligros:</strong> rodadoras, escorpiones, biznagas, arenas movedizas y cactus lanzaespinas.</p>
+                            <div class="nivel__basura">
+                                <span class="nivel__basura-titulo">Basura de la zona</span>
+                                <ul>
+                                    <li><img src="img/basura/botella_vidrio.png" alt="Botella de vidrio" width="10" height="21" loading="lazy"></li>
+                                    <li><img src="img/basura/bolsa_plastico.png" alt="Bolsa de plástico" width="14" height="18" loading="lazy"></li>
+                                    <li><img src="img/basura/llanta.png" alt="Llanta usada" width="24" height="24" loading="lazy"></li>
+                                    <li><img src="img/basura/pila.png" alt="Pila usada" width="10" height="21" loading="lazy"></li>
+                                    <li><img src="img/basura/vaso_unicel.png" alt="Vaso de unicel" width="14" height="16" loading="lazy"></li>
+                                </ul>
+                            </div>
+                            <button class="enlace-jefe" type="button" data-abrir-jefe="rey-cactus">
+                                Ver al jefe <svg class="icono" aria-hidden="true"><use href="#i-derecha" /></svg>
+                            </button>
+                        </div>
+                        <figure class="nivel__video">
+                            <div class="clip">
+                                <video muted loop playsinline preload="none" poster="img/capturas/v2/desierto-plataformas-640.webp"
+                                    aria-label="Toma real del nivel 2: ManyPig salta sobre plataformas de arenisca en el desierto.">
+                                    <source src="videos/clips/desierto.mp4" type="video/mp4">
+                                </video>
+                                <button class="clip__btn" type="button" aria-pressed="false">
+                                    <svg class="icono clip__icono-play" aria-hidden="true"><use href="#i-play" /></svg>
+                                    <svg class="icono clip__icono-pausa" aria-hidden="true"><use href="#i-pausa" /></svg>
+                                    <span class="clip__texto">Reproducir</span>
+                                </button>
+                            </div>
+                        </figure>
+                    </article>
+
+                    <article class="nivel" id="nivel-jungla" data-zona="jungla" aria-labelledby="t-jungla">
+                        <div class="nivel__panel panel panel--hud">
+                            <h3 class="nivel__titulo" id="t-jungla"><span class="nivel__num">Nivel 3</span> Jungla</h3>
+                            <p>
+                                Un río contaminado entre árboles gigantes. Balancéate en lianas, rebota
+                                en hojas trampolín y cruza el pantano sobre troncos.
+                            </p>
+                            <dl class="nivel__datos">
+                                <div><dt>Monedas</dt><dd>25</dd></div>
+                                <div><dt>Basura</dt><dd>17</dd></div>
+                                <div><dt>Jefe</dt><dd>Bisonte Jefe</dd></div>
+                            </dl>
+                            <p class="nivel__peligros"><strong>Peligros:</strong> plantas carnívoras, murciélagos, zarzas, pantano y bisontes con hacha.</p>
+                            <div class="nivel__basura">
+                                <span class="nivel__basura-titulo">Basura de la zona</span>
+                                <ul>
+                                    <li><img src="img/basura/red_pesca.png" alt="Red de pesca abandonada" width="24" height="18" loading="lazy"></li>
+                                    <li><img src="img/basura/celular.png" alt="Celular viejo" width="12" height="18" loading="lazy"></li>
+                                    <li><img src="img/basura/panal.png" alt="Pañal desechable" width="16" height="13" loading="lazy"></li>
+                                    <li><img src="img/basura/pesticida.png" alt="Envase de pesticida" width="14" height="18" loading="lazy"></li>
+                                    <li><img src="img/basura/tetrapak.png" alt="Envase multicapa de jugo" width="14" height="18" loading="lazy"></li>
+                                </ul>
+                            </div>
+                            <button class="enlace-jefe" type="button" data-abrir-jefe="bisonte">
+                                Ver al jefe <svg class="icono" aria-hidden="true"><use href="#i-derecha" /></svg>
+                            </button>
+                        </div>
+                        <figure class="nivel__video">
+                            <div class="clip">
+                                <video muted loop playsinline preload="none" poster="img/capturas/v2/jungla-trampolin-640.webp"
+                                    aria-label="Toma real del nivel 3: ManyPig rebota en hojas trampolín y se cuelga de lianas en la jungla.">
+                                    <source src="videos/clips/jungla.mp4" type="video/mp4">
+                                </video>
+                                <button class="clip__btn" type="button" aria-pressed="false">
+                                    <svg class="icono clip__icono-play" aria-hidden="true"><use href="#i-play" /></svg>
+                                    <svg class="icono clip__icono-pausa" aria-hidden="true"><use href="#i-pausa" /></svg>
+                                    <span class="clip__texto">Reproducir</span>
+                                </button>
+                            </div>
+                        </figure>
+                    </article>
+
+                    <article class="nivel" id="nivel-helado" data-zona="helado" aria-labelledby="t-helado">
+                        <div class="nivel__panel panel panel--hud">
+                            <h3 class="nivel__titulo" id="t-helado"><span class="nivel__num">Nivel 4</span> Reino helado</h3>
+                            <p>
+                                Noche, hielo resbaladizo y una tormenta de nieve. Enciende los braseros,
+                                esquiva los carámbanos y gana la espada legendaria.
+                            </p>
+                            <dl class="nivel__datos">
+                                <div><dt>Monedas</dt><dd>29</dd></div>
+                                <div><dt>Basura</dt><dd>17</dd></div>
+                                <div><dt>Jefe</dt><dd>Guardián del Filo</dd></div>
+                            </dl>
+                            <p class="nivel__peligros"><strong>Misiones extra:</strong> purificar los 3 braseros y recuperar la espada legendaria.</p>
+                            <div class="nivel__basura">
+                                <span class="nivel__basura-titulo">Basura de la zona</span>
+                                <ul>
+                                    <li><img src="img/basura/colilla.png" alt="Colilla de cigarro" width="14" height="8" loading="lazy"></li>
+                                    <li><img src="img/basura/foco_ahorrador.png" alt="Foco ahorrador" width="10" height="17" loading="lazy"></li>
+                                    <li><img src="img/basura/lata_aerosol.png" alt="Lata de aerosol" width="10" height="16" loading="lazy"></li>
+                                    <li><img src="img/basura/botella_pet.png" alt="Botella de plástico PET" width="8" height="16" loading="lazy"></li>
+                                    <li><img src="img/basura/periodico.png" alt="Periódico viejo" width="18" height="11" loading="lazy"></li>
+                                </ul>
+                            </div>
+                            <button class="enlace-jefe" type="button" data-abrir-jefe="guardian">
+                                Ver al jefe <svg class="icono" aria-hidden="true"><use href="#i-derecha" /></svg>
+                            </button>
+                        </div>
+                        <figure class="nivel__video">
+                            <div class="clip">
+                                <video muted loop playsinline preload="none" poster="img/capturas/v2/helado-carambanos-640.webp"
+                                    aria-label="Toma real del nivel 4: ManyPig avanza de noche entre carámbanos, esqueletos y hadas de nieve.">
+                                    <source src="videos/clips/helado.mp4" type="video/mp4">
+                                </video>
+                                <button class="clip__btn" type="button" aria-pressed="false">
+                                    <svg class="icono clip__icono-play" aria-hidden="true"><use href="#i-play" /></svg>
+                                    <svg class="icono clip__icono-pausa" aria-hidden="true"><use href="#i-pausa" /></svg>
+                                    <span class="clip__texto">Reproducir</span>
+                                </button>
+                            </div>
+                        </figure>
+                    </article>
+
+                    <article class="nivel" id="nivel-castillo" data-zona="castillo" aria-labelledby="t-castillo">
+                        <div class="nivel__panel panel panel--hud">
+                            <h3 class="nivel__titulo" id="t-castillo"><span class="nivel__num">Final</span> Castillo del Verdugo</h3>
+                            <p>
+                                Se entra por la puerta del reino helado. Una reja se cierra a tu
+                                espalda y el Verdugo del Hielo te espera en su salón.
+                            </p>
+                            <dl class="nivel__datos">
+                                <div><dt>Monedas</dt><dd>6</dd></div>
+                                <div><dt>Combate</dt><dd>3 fases</dd></div>
+                                <div><dt>Jefe</dt><dd>Verdugo del Hielo</dd></div>
+                            </dl>
+                            <p class="nivel__peligros"><strong>Peligros:</strong> esqueletos, lobos, hadas de nieve, estacas de hielo y una sala que se derrumba.</p>
+                            <button class="enlace-jefe" type="button" data-abrir-jefe="verdugo">
+                                Ver al jefe <svg class="icono" aria-hidden="true"><use href="#i-derecha" /></svg>
+                            </button>
+                        </div>
+                        <figure class="nivel__video">
+                            <div class="clip">
+                                <video muted loop playsinline preload="none" poster="img/capturas/v2/castillo-verdugo-640.webp"
+                                    aria-label="Toma real del castillo: ManyPig con la espada frente al Verdugo del Hielo.">
+                                    <source src="videos/clips/castillo.mp4" type="video/mp4">
+                                </video>
+                                <button class="clip__btn" type="button" aria-pressed="false">
+                                    <svg class="icono clip__icono-play" aria-hidden="true"><use href="#i-play" /></svg>
+                                    <svg class="icono clip__icono-pausa" aria-hidden="true"><use href="#i-pausa" /></svg>
+                                    <span class="clip__texto">Reproducir</span>
+                                </button>
+                            </div>
+                        </figure>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- =====================================================
+             5. JEFES
+             Cada tarjeta abre una ficha. El texto de la ficha está
+             en el <template> de cada jefe.
+        ====================================================== -->
+        <section class="seccion seccion--noche" id="jefes" aria-labelledby="titulo-jefes" data-ambiente="castillo" data-hud="JEFES">
+            <div class="contenedor">
+                <h2 class="titulo titulo--oro revelar" id="titulo-jefes">Los jefes</h2>
+                <p class="intro revelar">
+                    Cinco guardianes cierran el paso. Todos avisan antes de atacar:
+                    aprende sus señales. Toca una tarjeta para ver su ficha.
+                </p>
+
+                <ul class="jefes">
+                    <li class="jefe jefe--playa revelar" data-jefe="saqueador" data-nombre="Saqueador de la costa"
+                        data-zona="Nivel 1 · Playa sepultada" data-clip="videos/clips/jefe-saqueador.mp4"
+                        data-poster="img/capturas/v2/playa-jefe-640.webp">
+                        <button class="jefe__btn" type="button" aria-haspopup="dialog">
+                            <span class="jefe__escena" aria-hidden="true">
+                                <span class="jefe__luz"></span>
+                                <span class="jefe__aviso">!</span>
+                                <span class="sprite sprite--jefe" data-jefe="saqueador" data-anim="idle"></span>
+                            </span>
+                            <span class="jefe__info">
+                                <span class="jefe__nombre">Saqueador de la costa</span>
+                                <span class="jefe__zona">Nivel 1 · Playa</span>
+                                <span class="jefe__lema">Un arquero que dispara flechas en abanico.</span>
+                                <span class="jefe__ver">Ver ficha <svg class="icono" aria-hidden="true"><use href="#i-derecha" /></svg></span>
+                            </span>
+                        </button>
+                        <template>
+                            <p>Espera al final de la playa con su arco. Cuando ManyPig se acerca, suena la alarma y empieza el combate.</p>
+                            <h3>Cómo vencerlo</h3>
+                            <ul>
+                                <li>Como jefe, suelta <strong>tres flechas a la vez</strong>, en abanico.</li>
+                                <li>Salta entre las flechas y <strong>cáele encima</strong>: cada pisotón le baja la barra de vida.</li>
+                                <li>Aguanta varios pisotones; no te desesperes.</li>
+                            </ul>
+                        </template>
+                    </li>
+
+                    <li class="jefe jefe--desierto revelar" data-jefe="rey-cactus" data-nombre="Rey Cactus"
+                        data-zona="Nivel 2 · Desierto" data-clip="videos/clips/jefe-rey-cactus.mp4"
+                        data-poster="img/capturas/v2/desierto-rey-cactus-640.webp">
+                        <button class="jefe__btn" type="button" aria-haspopup="dialog">
+                            <span class="jefe__escena" aria-hidden="true">
+                                <span class="jefe__luz"></span>
+                                <span class="jefe__aviso">!</span>
+                                <span class="sprite sprite--jefe" data-jefe="rey-cactus" data-anim="idle"></span>
+                            </span>
+                            <span class="jefe__info">
+                                <span class="jefe__nombre">Rey Cactus</span>
+                                <span class="jefe__zona">Nivel 2 · Desierto</span>
+                                <span class="jefe__lema">Un saguaro gigante que dispara espinas.</span>
+                                <span class="jefe__ver">Ver ficha <svg class="icono" aria-hidden="true"><use href="#i-derecha" /></svg></span>
+                            </span>
+                        </button>
+                        <template>
+                            <p>El cactus más grande del desierto. No se mueve de su sitio, pero domina todo el terreno con sus espinas.</p>
+                            <h3>Cómo vencerlo</h3>
+                            <ul>
+                                <li>Antes de disparar <strong>se hincha y brilla en amarillo</strong>: es tu aviso para saltar.</li>
+                                <li>Tocarlo de lado hace daño; <strong>cáele encima</strong> para golpearlo.</li>
+                                <li>Aguanta muchos más pisotones que un cactus normal.</li>
+                            </ul>
+                        </template>
+                    </li>
+
+                    <li class="jefe jefe--jungla revelar" data-jefe="bisonte" data-nombre="Bisonte Jefe"
+                        data-zona="Nivel 3 · Jungla" data-clip="videos/clips/jefe-bisonte.mp4"
+                        data-poster="img/capturas/v2/jungla-bisonte-640.webp">
+                        <button class="jefe__btn" type="button" aria-haspopup="dialog">
+                            <span class="jefe__escena" aria-hidden="true">
+                                <span class="jefe__luz"></span>
+                                <span class="jefe__aviso">!</span>
+                                <span class="sprite sprite--jefe" data-jefe="bisonte" data-anim="idle"></span>
+                            </span>
+                            <span class="jefe__info">
+                                <span class="jefe__nombre">Bisonte Jefe</span>
+                                <span class="jefe__zona">Nivel 3 · Jungla</span>
+                                <span class="jefe__lema">Embiste con un tajo de hacha.</span>
+                                <span class="jefe__ver">Ver ficha <svg class="icono" aria-hidden="true"><use href="#i-derecha" /></svg></span>
+                            </span>
+                        </button>
+                        <template>
+                            <p>El más grande y rojizo de los bisontes hacheros. Patrulla el final de la jungla con su barra de vida a la vista.</p>
+                            <h3>Cómo vencerlo</h3>
+                            <ul>
+                                <li>Cuando <strong>levanta el hacha y destella en rojo</strong>, va a embestir: apártate o salta.</li>
+                                <li>Después del tajo se queda resoplando: es el momento de <strong>pisarle la cabeza</strong>.</li>
+                                <li>Si brilla en azul se está defendiendo y rebotarás. La espada legendaria rompe esa guardia.</li>
+                            </ul>
+                        </template>
+                    </li>
+
+                    <li class="jefe jefe--helado revelar" data-jefe="guardian" data-nombre="Guardián del Filo"
+                        data-zona="Nivel 4 · Reino helado" data-poster="img/capturas/v2/helado-enemigos-640.webp">
+                        <button class="jefe__btn" type="button" aria-haspopup="dialog">
+                            <span class="jefe__escena" aria-hidden="true">
+                                <span class="jefe__luz"></span>
+                                <span class="jefe__aviso">!</span>
+                                <span class="sprite sprite--jefe" data-jefe="guardian" data-anim="idle"></span>
+                            </span>
+                            <span class="jefe__info">
+                                <span class="jefe__nombre">Guardián del Filo</span>
+                                <span class="jefe__zona">Nivel 4 · Reino helado</span>
+                                <span class="jefe__lema">Guarda la espada legendaria.</span>
+                                <span class="jefe__ver">Ver ficha <svg class="icono" aria-hidden="true"><use href="#i-derecha" /></svg></span>
+                            </span>
+                        </button>
+                        <template>
+                            <p>Un guerrero de hielo con un mazo enorme. Al caer deja la <strong>espada legendaria</strong>, que necesitarás en el castillo.</p>
+                            <h3>Cómo vencerlo</h3>
+                            <ul>
+                                <li>Da mazazos y salta para lanzar <strong>ondas de hielo</strong> por el suelo: sáltalas.</li>
+                                <li>Tras cada golpe levanta la guardia un momento. Espera a que la baje.</li>
+                                <li>Fíjate en el aviso antes de cada ataque: en dificultad baja dura más.</li>
+                            </ul>
+                        </template>
+                    </li>
+
+                    <li class="jefe jefe--castillo jefe--final revelar" data-jefe="verdugo" data-nombre="Verdugo del Hielo"
+                        data-zona="Final · Castillo del Verdugo" data-clip="videos/clips/jefe-verdugo.mp4"
+                        data-poster="img/capturas/v2/castillo-verdugo-640.webp">
+                        <button class="jefe__btn" type="button" aria-haspopup="dialog">
+                            <span class="jefe__escena" aria-hidden="true">
+                                <span class="jefe__luz"></span>
+                                <span class="jefe__aviso">!</span>
+                                <span class="sprite sprite--jefe" data-jefe="verdugo" data-anim="idle"></span>
+                            </span>
+                            <span class="jefe__info">
+                                <span class="jefe__nombre">Verdugo del Hielo</span>
+                                <span class="jefe__zona">Jefe final · Castillo</span>
+                                <span class="jefe__lema">
+                                    Un guardián que la contaminación corrompió. Su armadura de hielo
+                                    resiste los pisotones y pelea en tres fases.
+                                </span>
+                                <span class="jefe__ver">Ver ficha <svg class="icono" aria-hidden="true"><use href="#i-derecha" /></svg></span>
+                            </span>
+                        </button>
+                        <template>
+                            <p>El jefe final. Encerró a la Princesa Aurora en un cristal de hielo negro y te espera en el salón del castillo.</p>
+                            <h3>Sus tres fases</h3>
+                            <ul>
+                                <li><strong>Espada y martillo:</strong> tajos con embestida y golpes que lanzan ondas de hielo.</li>
+                                <li><strong>Estacas y sirvientes:</strong> brotan estacas del suelo (mira los círculos de aviso) y llama a otros enemigos.</li>
+                                <li><strong>Furia helada:</strong> la sala se derrumba y carga más rápido. Si choca con la pared, queda aturdido.</li>
+                            </ul>
+                            <h3>Cómo vencerlo</h3>
+                            <ul>
+                                <li>Su <strong>armadura de hielo</strong> hace rebotar los pisotones. La espada legendaria la rompe por unos segundos.</li>
+                                <li>Cuando aparece <strong>«¡AHORA!»</strong> está expuesto: cualquier golpe le hace daño.</li>
+                            </ul>
+                        </template>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+
+        <!-- =====================================================
+             6. PERSONAJE PRINCIPAL
+        ====================================================== -->
+        <section class="seccion seccion--hud" id="manypig" aria-labelledby="titulo-manypig" data-ambiente="playa" data-hud="MANYPIG">
+            <div class="contenedor personaje">
+
+                <div class="personaje__escenario revelar">
+                    <div class="personaje__marco">
+                        <span class="sprite sprite--manypig sprite--grande" id="manypig-ficha" data-anim="idle"
+                            role="img" aria-label="ManyPig, cerdito de pixel art con gorra verde y mochila"></span>
+                    </div>
+
+                    <div class="animaciones" role="group" aria-label="Elegir animación de ManyPig">
+                        <button class="animaciones__btn" type="button" data-anim="idle" aria-pressed="true">Quieto</button>
+                        <button class="animaciones__btn" type="button" data-anim="run" aria-pressed="false">Correr</button>
+                        <button class="animaciones__btn" type="button" data-anim="jump" aria-pressed="false">Saltar</button>
+                        <button class="animaciones__btn" type="button" data-anim="hit" aria-pressed="false">Recibe daño</button>
+                    </div>
+                </div>
+
+                <div class="personaje__ficha revelar">
+                    <h2 class="titulo titulo--oro" id="titulo-manypig">ManyPig</h2>
+                    <p class="destacado">
+                        Valiente, terco y curioso. Antes se pasaba el día durmiendo en el lodo;
+                        ahora no descansa hasta ver su isla limpia.
+                    </p>
+
+                    <dl class="ficha">
+                        <div class="ficha__fila">
+                            <dt>Vida</dt>
+                            <dd>1000 puntos. Después de un golpe parpadea y es invulnerable 1 segundo.</dd>
+                        </div>
+                        <div class="ficha__fila">
+                            <dt>Salto</dt>
+                            <dd>Salto alto y doble salto para llegar a las plataformas lejanas.</dd>
+                        </div>
+                        <div class="ficha__fila">
+                            <dt>Espada</dt>
+                            <dd>
+                                <img class="ficha__espada" src="img/juego/espada_legendaria.png" alt="" width="11" height="37">
+                                La <strong>espada legendaria</strong> rompe guardias y armaduras de hielo. Se gana en el reino helado.
+                            </dd>
+                        </div>
+                        <div class="ficha__fila">
+                            <dt>Equipo</dt>
+                            <dd>Escudo y chaleco reciclados, comprados con EcoMonedas en la Tienda Ecológica.</dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- =====================================================
+             7. REGISTRO DE BASURA: las 19 basuras del juego
+        ====================================================== -->
+        <section class="seccion seccion--nube" id="reciclaje" aria-labelledby="titulo-reciclaje" data-ambiente="playa" data-hud="REGISTRO">
+            <div class="contenedor">
+                <h2 class="titulo revelar" id="titulo-reciclaje">Registro de basura</h2>
+                <p class="intro revelar">
+                    En el juego hay 19 tipos de basura y seis contenedores. Elige una basura
+                    para ver su ficha, igual que en el juego.
+                </p>
+
+                <div class="registro revelar">
+                    <div class="registro__filtros" role="group" aria-label="Filtrar por contenedor">
+                        <button class="filtro" type="button" data-filtro="todos" aria-pressed="true">Todos</button>
+                        <button class="filtro filtro--plastico" type="button" data-filtro="plastico" aria-pressed="false">Plástico</button>
+                        <button class="filtro filtro--carton" type="button" data-filtro="carton" aria-pressed="false">Cartón</button>
+                        <button class="filtro filtro--metal" type="button" data-filtro="metal" aria-pressed="false">Metal</button>
+                        <button class="filtro filtro--vidrio" type="button" data-filtro="vidrio" aria-pressed="false">Vidrio</button>
+                        <button class="filtro filtro--peligroso" type="button" data-filtro="peligroso" aria-pressed="false">Peligroso</button>
+                        <button class="filtro filtro--especial" type="button" data-filtro="especial" aria-pressed="false">Especial</button>
+                    </div>
+
+                    <ul class="registro__lista" id="registro-lista" aria-label="Basuras del juego"></ul>
+
+                    <article class="registro__ficha panel panel--hud" id="registro-ficha" aria-live="polite">
+                        <div class="registro__sprite"><img id="rf-img" src="img/juego/basura_plastico.png" alt="" width="109" height="192"></div>
+                        <div class="registro__texto">
+                            <h3 class="registro__nombre" id="rf-nombre">Lata de refresco</h3>
+                            <p class="registro__contenedor"><span class="chapa" id="rf-contenedor" data-contenedor="plastico">Contenedor: Plástico</span></p>
+                            <dl class="registro__datos">
+                                <div><dt>Material</dt><dd id="rf-material">Aluminio con un barniz plástico por dentro</dd></div>
+                                <div><dt>Tarda en degradarse</dt><dd id="rf-degradacion">≈ 200 años (aprox.)</dd></div>
+                                <div><dt>Qué hacer</dt><dd id="rf-consejo">Enjuágala, aplástala y llévala al contenedor de envases.</dd></div>
+                            </dl>
+                            <ul class="registro__efectos" id="rf-efectos">
+                                <li>Los animales se cortan o se atoran con ella.</li>
+                                <li>Acumula agua donde se crían mosquitos.</li>
+                                <li>Hacer aluminio nuevo gasta mucha energía: reciclarlo ahorra casi toda.</li>
+                            </ul>
+                            <p class="registro__nota">Las cifras de degradación son aproximadas: dependen del clima, la luz y el suelo.</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- =====================================================
+             8. CÓMO SE JUEGA + TIENDA ECOLÓGICA
+        ====================================================== -->
+        <section class="seccion seccion--arena" id="como-jugar" aria-labelledby="titulo-controles" data-ambiente="playa" data-hud="CONTROLES">
+            <div class="contenedor controles">
+
+                <div class="controles__teclas revelar">
+                    <h2 class="titulo" id="titulo-controles">Cómo se juega</h2>
+
+                    <dl class="teclas">
+                        <div class="teclas__fila">
+                            <dt>
+                                <kbd class="tecla">A</kbd><kbd class="tecla">D</kbd>
+                                <span class="teclas__o">o</span>
+                                <kbd class="tecla" aria-label="Flecha izquierda">←</kbd><kbd class="tecla" aria-label="Flecha derecha">→</kbd>
+                            </dt>
+                            <dd>Moverse</dd>
+                        </div>
+                        <div class="teclas__fila">
+                            <dt><kbd class="tecla tecla--ancha">Espacio</kbd></dt>
+                            <dd>Saltar (otra vez en el aire para el doble salto)</dd>
+                        </div>
+                        <div class="teclas__fila">
+                            <dt><kbd class="tecla">J</kbd><span class="teclas__o">o</span><kbd class="tecla">X</kbd></dt>
+                            <dd>Atacar con la espada legendaria, cuando la tengas</dd>
+                        </div>
+                        <div class="teclas__fila">
+                            <dt><kbd class="tecla">T</kbd></dt>
+                            <dd>Abrir la Tienda Ecológica</dd>
+                        </div>
+                        <div class="teclas__fila">
+                            <dt><kbd class="tecla">B</kbd></dt>
+                            <dd>Bailar</dd>
+                        </div>
+                        <div class="teclas__fila">
+                            <dt><kbd class="tecla">Esc</kbd></dt>
+                            <dd>Volver al menú principal</dd>
+                        </div>
+                    </dl>
+                    <p class="nota">Los controles se pueden cambiar desde Configuración. El juego incluye un tutorial y guarda tu avance.</p>
+                </div>
+
+                <div class="controles__tienda revelar">
+                    <h3 class="subtitulo">La Tienda Ecológica</h3>
+                    <p>Gasta tus EcoMonedas en mejoras que duran el resto de la partida.</p>
+
+                    <ul class="tienda">
+                        <li class="tienda__item">
+                            <span class="tienda__nombre">Chaleco ecológico</span>
+                            <span class="tienda__texto">Plástico reciclado y fibras de palma. Cada mejora aumenta tu vida máxima.</span>
+                            <span class="tienda__precio"><span class="sprite sprite--moneda sprite--mini" aria-hidden="true"></span>8 · 14 · 22</span>
+                        </li>
+                        <li class="tienda__item">
+                            <span class="tienda__nombre">Escudo reciclado</span>
+                            <span class="tienda__texto">Tapas de botella fundidas. Cada carga bloquea un golpe completo.</span>
+                            <span class="tienda__precio"><span class="sprite sprite--moneda sprite--mini" aria-hidden="true"></span>6 · 12 · 18</span>
+                        </li>
+                        <li class="tienda__item">
+                            <span class="tienda__nombre">Recargar escudo</span>
+                            <span class="tienda__texto">Rellena las cargas al instante. También recuperas 1 carga cada 5 basuras recicladas.</span>
+                            <span class="tienda__precio"><span class="sprite sprite--moneda sprite--mini" aria-hidden="true"></span>3</span>
+                        </li>
+                    </ul>
+                    <p class="nota">Precios en EcoMonedas, por nivel de mejora.</p>
+
+                    <figure class="captura">
+                        <img src="img/capturas/v2/tienda-ecologica.webp" width="1280" height="720" loading="lazy"
+                            srcset="img/capturas/v2/tienda-ecologica-640.webp 640w, img/capturas/v2/tienda-ecologica.webp 1280w"
+                            sizes="(max-width: 960px) 100vw, 560px"
+                            alt="Captura del juego: la Tienda Ecológica con el chaleco ecológico, el escudo reciclado y la recarga del escudo.">
+                        <figcaption>La tienda se abre en cualquier momento con la tecla T.</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- =====================================================
+             9. GALERÍA
+        ====================================================== -->
+        <section class="seccion seccion--tinta" id="galeria" aria-labelledby="titulo-galeria" data-ambiente="helado" data-hud="GALERÍA">
+            <div class="contenedor">
+                <h2 class="titulo titulo--oro revelar" id="titulo-galeria">Galería del juego</h2>
+                <p class="intro revelar">Capturas tomadas del juego en Godot. Toca una imagen para verla en grande.</p>
+
+                <ul class="galeria">
+                    <li class="galeria__item galeria__item--ancho revelar">
+                        <button class="galeria__btn" type="button">
+                            <img src="img/capturas/v2/playa-islas-640.webp" data-grande="img/capturas/v2/playa-islas.webp" width="640" height="360" loading="lazy"
+                                alt="Nivel 1: ManyPig salta junto a islas de arena flotantes, con lanzas y una caja de cartón.">
+                        </button>
+                        <span class="galeria__pie">Nivel 1 · Islas de la playa</span>
+                    </li>
+                    <li class="galeria__item revelar">
+                        <button class="galeria__btn" type="button">
+                            <img src="img/capturas/v2/playa-jefe-640.webp" data-grande="img/capturas/v2/playa-jefe.webp" width="640" height="360" loading="lazy"
+                                alt="Nivel 1: el Saqueador de la costa dispara tres flechas hacia ManyPig.">
+                        </button>
+                        <span class="galeria__pie">Nivel 1 · Saqueador de la costa</span>
+                    </li>
+                    <li class="galeria__item revelar">
+                        <button class="galeria__btn" type="button">
+                            <img src="img/capturas/v2/desierto-rey-cactus-640.webp" data-grande="img/capturas/v2/desierto-rey-cactus.webp" width="640" height="360" loading="lazy"
+                                alt="Nivel 2: ManyPig frente al Rey Cactus, que dispara espinas bajo el sol del desierto.">
+                        </button>
+                        <span class="galeria__pie">Nivel 2 · Rey Cactus</span>
+                    </li>
+                    <li class="galeria__item revelar">
+                        <button class="galeria__btn" type="button">
+                            <img src="img/capturas/v2/desierto-rodadora-640.webp" data-grande="img/capturas/v2/desierto-rodadora.webp" width="640" height="360" loading="lazy"
+                                alt="Nivel 2: una llanta rueda hacia ManyPig entre biznagas y un vaso de unicel.">
+                        </button>
+                        <span class="galeria__pie">Nivel 2 · Desierto</span>
+                    </li>
+                    <li class="galeria__item revelar">
+                        <button class="galeria__btn" type="button">
+                            <img src="img/capturas/v2/jungla-bisonte-640.webp" data-grande="img/capturas/v2/jungla-bisonte.webp" width="640" height="360" loading="lazy"
+                                alt="Nivel 3: ManyPig salta sobre el Bisonte Jefe, que levanta su hacha en la jungla.">
+                        </button>
+                        <span class="galeria__pie">Nivel 3 · Bisonte Jefe</span>
+                    </li>
+                    <li class="galeria__item revelar">
+                        <button class="galeria__btn" type="button">
+                            <img src="img/capturas/v2/jungla-planta-640.webp" data-grande="img/capturas/v2/jungla-planta.webp" width="640" height="360" loading="lazy"
+                                alt="Nivel 3: una planta carnívora sobre un tronco y ManyPig en el suelo de la jungla.">
+                        </button>
+                        <span class="galeria__pie">Nivel 3 · Planta carnívora</span>
+                    </li>
+                    <li class="galeria__item galeria__item--ancho revelar">
+                        <button class="galeria__btn" type="button">
+                            <img src="img/capturas/v2/helado-tormenta-640.webp" data-grande="img/capturas/v2/helado-tormenta.webp" width="640" height="360" loading="lazy"
+                                alt="Nivel 4: una tormenta de nieve cubre el reino helado mientras un hada de hielo vuela sobre ManyPig.">
+                        </button>
+                        <span class="galeria__pie">Nivel 4 · Tormenta de nieve</span>
+                    </li>
+                    <li class="galeria__item revelar">
+                        <button class="galeria__btn" type="button">
+                            <img src="img/capturas/v2/helado-carambanos-640.webp" data-grande="img/capturas/v2/helado-carambanos.webp" width="640" height="360" loading="lazy"
+                                alt="Nivel 4: ManyPig entre torres de piedra, carámbanos, una estatua de hielo y un esqueleto.">
+                        </button>
+                        <span class="galeria__pie">Nivel 4 · Carámbanos</span>
+                    </li>
+                    <li class="galeria__item revelar">
+                        <button class="galeria__btn" type="button">
+                            <img src="img/capturas/v2/castillo-espada-640.webp" data-grande="img/capturas/v2/castillo-espada.webp" width="640" height="360" loading="lazy"
+                                alt="Castillo: ManyPig ataca a un esqueleto con la espada legendaria.">
+                        </button>
+                        <span class="galeria__pie">Castillo · La espada legendaria</span>
+                    </li>
+                    <li class="galeria__item revelar">
+                        <button class="galeria__btn" type="button">
+                            <img src="img/capturas/v2/castillo-fase3-640.webp" data-grande="img/capturas/v2/castillo-fase3.webp" width="640" height="360" loading="lazy"
+                                alt="Castillo: fase final del Verdugo del Hielo; la sala se derrumba y ManyPig espera con la espada.">
+                        </button>
+                        <span class="galeria__pie">Castillo · Furia helada</span>
+                    </li>
+                    <li class="galeria__item revelar">
+                        <button class="galeria__btn" type="button">
+                            <img src="img/capturas/v2/menu-principal-640.webp" data-grande="img/capturas/v2/menu-principal.webp" width="640" height="360" loading="lazy"
+                                alt="Menú principal: título ECO AVENTURA sobre la playa con los botones Iniciar y Configuración.">
+                        </button>
+                        <span class="galeria__pie">Menú principal</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+
+        <!-- =====================================================
+             10. FINAL: ¿PODRÁS SALVAR A LA PRINCESA?
+        ====================================================== -->
+        <section class="final" id="princesa" aria-labelledby="titulo-final" data-ambiente="castillo" data-hud="CASTILLO">
+            <div class="final__escena" aria-hidden="true">
+                <div class="final__fondo"></div>
+                <div class="final__luna"></div>
+                <div class="final__verdugo"><span class="sprite sprite--jefe" data-jefe="verdugo" data-anim="idle"></span></div>
+                <div class="final__niebla final__niebla--lejos"></div>
+                <div class="final__niebla final__niebla--cerca"></div>
+                <canvas class="particulas" data-particulas="cristal"></canvas>
+                <div class="final__franja final__franja--arriba"></div>
+                <div class="final__franja final__franja--abajo"></div>
+            </div>
+
+            <div class="contenedor final__contenido">
+                <div class="final__cristal" id="cristal" role="img"
+                    aria-label="La Princesa Aurora, atrapada en un cristal de hielo negro">
+                    <span class="final__haz" aria-hidden="true"></span>
+                    <span class="sprite sprite--princesa" aria-hidden="true"></span>
+                    <svg class="final__hielo" viewBox="0 0 24 34" aria-hidden="true" shape-rendering="crispEdges">
+                        <path class="hielo-cuerpo" d="M9 0h6v2h2v2h2v4h2v18h-2v4h-2v2h-2v2H9v-2H7v-2H5v-4H3V8h2V4h2V2h2z" />
+                        <path class="hielo-brillo" d="M9 2h2v2H9zM7 4h2v4H7zM5 8h2v8H5zM15 4h2v2h-2zM17 20h2v4h-2zM15 26h2v2h-2z" />
+                        <path class="hielo-borde" d="M9 0h6v1H9zM15 1h2v1h-2zM7 1h2v1H7zM17 2h2v2h-2zM5 2h2v2H5zM19 4h1v4h-1zM4 4h1v4H4zM20 8h1v18h-1zM3 8h1v18H3zM19 26h1v4h-1zM4 26h1v4H4zM17 30h2v2h-2zM5 30h2v2H5zM15 32h2v1h-2zM7 32h2v1H7zM9 33h6v1H9z" />
+                    </svg>
+                </div>
+
+                <div class="final__texto">
+                    <h2 class="final__titulo" id="titulo-final">
+                        <span class="solo-lector">¿PODRÁS SALVAR A LA PRINCESA?</span>
+                        <span class="final__linea" aria-hidden="true">¿PODRÁS SALVAR</span>
+                        <span class="final__linea" aria-hidden="true">A LA PRINCESA?</span>
+                    </h2>
+                    <p class="final__frase">
+                        La Princesa Aurora está atrapada en un cristal de hielo negro.
+                        Limpia cada nivel, vence a los jefes y enfrenta al Verdugo del Hielo
+                        para devolverle la luz al reino.
+                    </p>
+                    <a class="btn btn--primario btn--grande btn--brillo final__cta" href="#descargar" data-sfx="hielo">
+                        Acepto el desafío
+                        <svg class="icono" aria-hidden="true"><use href="#i-abajo" /></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- =====================================================
+             11. DESCARGAR: el amanecer
+        ====================================================== -->
+        <section class="descarga" id="descargar" aria-labelledby="titulo-descarga" data-ambiente="playa" data-hud="AMANECER">
+            <div class="descarga__escena" aria-hidden="true">
+                <div class="capa capa--cielo"></div>
+                <div class="descarga__amanecer"></div>
+                <div class="capa capa--nubes-grandes"><div class="capa__tira"></div></div>
+                <div class="capa capa--mar"><div class="capa__tira"></div></div>
+                <div class="capa capa--arena"><div class="capa__tira"></div></div>
+            </div>
+
+            <div class="contenedor descarga__contenido">
+                <span class="sprite sprite--manypig sprite--salto" data-anim="jump" aria-hidden="true"></span>
+
+                <div class="panel panel--hud descarga__panel revelar">
+                    <h2 class="titulo titulo--oro" id="titulo-descarga">Tu aventura comienza aquí</h2>
+                    <p>Descarga EcoAventura y únete a la misión por una isla limpia.</p>
+
+                    <!--
+                        DESCARGA: instalador de Windows en descargas/EcoAventura-Instalador.exe
+                    -->
+                    <a class="btn btn--primario btn--grande" id="btn-descarga" href="descargas/EcoAventura-Instalador.exe" download
+                        data-disponible="true">
+                        <svg class="icono" aria-hidden="true"><use href="#i-descarga" /></svg>
+                        <span id="btn-descarga-texto">Descargar juego</span>
+                    </a>
+                    <p class="descarga__estado" id="descarga-estado">Gratis · Windows 10/11 · 36 MB</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- =====================================================
+             12. PREGUNTAS FRECUENTES
+        ====================================================== -->
+        <section class="seccion seccion--nube" id="faq" aria-labelledby="titulo-faq" data-ambiente="playa" data-hud="PREGUNTAS">
+            <div class="contenedor faq-contenedor">
+                <h2 class="titulo revelar" id="titulo-faq">Preguntas frecuentes</h2>
+
+                <div class="faq">
+                    <div class="faq-item">
+                        <h3>
+                            <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-1">
+                                ¿En qué plataforma está disponible?
+                                <span class="faq-question__signo" aria-hidden="true"></span>
+                            </button>
+                        </h3>
+                        <div class="faq-answer" id="faq-1" hidden>
+                            <p>EcoAventura está pensado para jugarse en PC con teclado.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>
+                            <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-2">
+                                ¿Es un juego gratuito?
+                                <span class="faq-question__signo" aria-hidden="true"></span>
+                            </button>
+                        </h3>
+                        <div class="faq-answer" id="faq-2" hidden>
+                            <p>Sí. EcoAventura se puede descargar de forma libre.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>
+                            <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-3">
+                                ¿Cuántos niveles tiene?
+                                <span class="faq-question__signo" aria-hidden="true"></span>
+                            </button>
+                        </h3>
+                        <div class="faq-answer" id="faq-3" hidden>
+                            <p>
+                                Cuatro niveles (playa, desierto, jungla y reino helado) y el castillo
+                                del Verdugo como parte final. Cada uno tiene su jefe, y el siguiente
+                                nivel se desbloquea al completar el anterior.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>
+                            <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-4">
+                                ¿Se guarda mi avance?
+                                <span class="faq-question__signo" aria-hidden="true"></span>
+                            </button>
+                        </h3>
+                        <div class="faq-answer" id="faq-4" hidden>
+                            <p>Sí. El juego guarda los niveles que completas y puedes continuar desde el menú.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>
+                            <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-5">
+                                ¿Necesito conexión a internet?
+                                <span class="faq-question__signo" aria-hidden="true"></span>
+                            </button>
+                        </h3>
+                        <div class="faq-answer" id="faq-5" hidden>
+                            <p>No. Una vez descargado, el juego se ejecuta desde tu computadora.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>
+                            <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-6">
+                                ¿Para qué edad es?
+                                <span class="faq-question__signo" aria-hidden="true"></span>
+                            </button>
+                        </h3>
+                        <div class="faq-answer" id="faq-6" hidden>
+                            <p>
+                                Está pensado para niñas y niños de 8 a 15 años, y también para
+                                docentes y familias que quieran hablar de reciclaje jugando.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>
+                            <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-7">
+                                ¿Dónde aprendo a jugar?
+                                <span class="faq-question__signo" aria-hidden="true"></span>
+                            </button>
+                        </h3>
+                        <div class="faq-answer" id="faq-7" hidden>
+                            <p>
+                                En la sección <a href="#como-jugar">Cómo se juega</a> están los controles
+                                y la tienda. El juego también incluye un tutorial.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         PIE DE PÁGINA
+    ====================================================== -->
+    <footer class="footer">
+        <div class="footer__suelo" aria-hidden="true"></div>
+        <div class="contenedor footer__contenido">
+            <div class="footer__marca">
+                <span class="footer__logo">ECO AVENTURA</span>
+                <p>Protege la naturaleza · Recicla · Aventúrate</p>
+            </div>
+
+            <nav class="footer__nav" aria-label="Pie de página">
+                <a href="#inicio">Inicio</a>
+                <a href="#trailer">Tráiler</a>
+                <a href="#viaje">Niveles</a>
+                <a href="#jefes">Jefes</a>
+                <a href="#descargar">Descarga</a>
+            </nav>
+
+            <p class="footer__legal">© 2026 EcoAventura. Proyecto escolar · Juntos por un mundo más verde.</p>
+        </div>
+    </footer>
+
+
+    <!-- Visor de imágenes de la galería -->
+    <dialog class="visor" id="visor" aria-label="Visor de capturas">
+        <div class="visor__contenido">
+            <div class="visor__marco" id="visor-marco"></div>
+            <p class="visor__pie" id="visor-pie"></p>
+            <div class="visor__controles">
+                <button class="visor__btn" type="button" id="visor-anterior" aria-label="Captura anterior">
+                    <svg class="icono" aria-hidden="true"><use href="#i-izquierda" /></svg>
+                </button>
+                <span class="visor__contador" id="visor-contador"></span>
+                <button class="visor__btn" type="button" id="visor-siguiente" aria-label="Captura siguiente">
+                    <svg class="icono" aria-hidden="true"><use href="#i-derecha" /></svg>
+                </button>
+            </div>
+            <button class="visor__cerrar" type="button" id="visor-cerrar" aria-label="Cerrar visor">
+                <svg class="icono" aria-hidden="true"><use href="#i-cerrar" /></svg>
+            </button>
+        </div>
+    </dialog>
+
+    <!-- Ficha ampliada de un jefe -->
+    <dialog class="ficha-jefe" id="ficha-jefe" aria-labelledby="fj-nombre">
+        <div class="ficha-jefe__contenido">
+            <div class="ficha-jefe__escenario" id="fj-escenario">
+                <span class="jefe__luz" aria-hidden="true"></span>
+                <span class="sprite sprite--jefe" id="fj-sprite" data-jefe="saqueador" data-anim="idle" aria-hidden="true"></span>
+                <div class="ficha-jefe__anim" role="group" aria-label="Animación del jefe">
+                    <button class="animaciones__btn" type="button" data-anim="idle" aria-pressed="true">Reposo</button>
+                    <button class="animaciones__btn" type="button" data-anim="ataque" aria-pressed="false">Ataque</button>
+                </div>
+            </div>
+            <div class="ficha-jefe__texto">
+                <h2 class="ficha-jefe__nombre" id="fj-nombre"></h2>
+                <p class="ficha-jefe__zona" id="fj-zona"></p>
+                <div class="ficha-jefe__cuerpo" id="fj-cuerpo"></div>
+                <figure class="ficha-jefe__video" id="fj-video-marco">
+                    <div class="clip">
+                        <video id="fj-video" muted loop playsinline preload="none"></video>
+                        <button class="clip__btn" type="button" aria-pressed="false">
+                            <svg class="icono clip__icono-play" aria-hidden="true"><use href="#i-play" /></svg>
+                            <svg class="icono clip__icono-pausa" aria-hidden="true"><use href="#i-pausa" /></svg>
+                            <span class="clip__texto">Reproducir</span>
+                        </button>
+                    </div>
+                    <figcaption id="fj-pie">Toma real del combate.</figcaption>
+                </figure>
+            </div>
+            <div class="ficha-jefe__nav">
+                <button class="visor__btn" type="button" id="fj-anterior" aria-label="Jefe anterior">
+                    <svg class="icono" aria-hidden="true"><use href="#i-izquierda" /></svg>
+                </button>
+                <span class="visor__contador" id="fj-contador"></span>
+                <button class="visor__btn" type="button" id="fj-siguiente" aria-label="Jefe siguiente">
+                    <svg class="icono" aria-hidden="true"><use href="#i-derecha" /></svg>
+                </button>
+            </div>
+            <button class="visor__cerrar" type="button" id="fj-cerrar" aria-label="Cerrar ficha">
+                <svg class="icono" aria-hidden="true"><use href="#i-cerrar" /></svg>
+            </button>
+        </div>
+    </dialog>
+
+    <!-- Notificación "Instalar ahora": aparece al llegar al final de la página -->
+    <aside class="aviso-instalar" id="aviso-instalar" role="dialog" aria-labelledby="aviso-instalar-titulo" aria-describedby="aviso-instalar-texto" hidden>
+        <div class="aviso-instalar__cabecera">
+            <span class="aviso-instalar__app">
+                <img src="img/juego/collectibles_coin_gold.png" alt="" width="20" height="20">
+                EcoAventura
+            </span>
+            <span class="aviso-instalar__hora">ahora</span>
+            <button class="aviso-instalar__cerrar" id="aviso-instalar-cerrar" type="button" aria-label="Cerrar notificación">
+                <svg class="icono" aria-hidden="true"><use href="#i-cerrar" /></svg>
+            </button>
+        </div>
+        <div class="aviso-instalar__cuerpo">
+            <span class="sprite sprite--manypig aviso-instalar__sprite" data-anim="idle" aria-hidden="true"></span>
+            <div>
+                <p class="aviso-instalar__titulo" id="aviso-instalar-titulo">¡El juego está listo!</p>
+                <p class="aviso-instalar__texto" id="aviso-instalar-texto">Instala EcoAventura en tu PC y ayuda a ManyPig a limpiar la isla.</p>
+            </div>
+        </div>
+        <a class="btn btn--primario btn--brillo aviso-instalar__btn" id="aviso-instalar-btn" href="descargas/EcoAventura-Instalador.exe" download data-sfx="moneda">
+            <svg class="icono" aria-hidden="true"><use href="#i-descarga" /></svg>
+            Instalar ahora
+        </a>
+        <p class="aviso-instalar__nota">Windows 10/11 · 36 MB · Gratis</p>
+    </aside>
+
+    <script src="js/config.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/notificaciones.js"></script>
+</body>
+
+</html>
