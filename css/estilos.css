@@ -3978,6 +3978,10 @@ body[data-zona="castillo"] { --zona-acento: var(--castillo-luz); }
 }
 
 .aviso-instalar__app img {
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+    object-position: 0 50%;
     image-rendering: pixelated;
 }
 
