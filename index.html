@@ -46,6 +46,7 @@
         <symbol id="i-play" viewBox="0 0 8 8"><path d="M2 0h1v8H2zM3 1h1v6H3zM4 2h1v4H4zM5 3h1v2H5z" /></symbol>
         <symbol id="i-pausa" viewBox="0 0 8 8"><path d="M1 1h2v6H1zM5 1h2v6H5z" /></symbol>
         <symbol id="i-sonido" viewBox="0 0 8 8"><path d="M0 3h2v2H0zM2 2h1v4H2zM3 1h1v6H3zM5 2h1v1H5zM6 3h1v2H6zM5 5h1v1H5z" /></symbol>
+        <symbol id="i-escudo" viewBox="0 0 8 8"><path d="M1 0h6v1h1v3H7v2H6v1H5v1H3V7H2V6H1V4H0V1h1zM3 2v1H2v1h1v1h1V4h1V3h1V2H5v1H4V2z" /></symbol>
         <symbol id="i-mudo" viewBox="0 0 8 8"><path d="M0 3h2v2H0zM2 2h1v4H2zM3 1h1v6H3zM5 2h1v1H5zM7 2h1v1H7zM6 3h1v2H6zM5 5h1v1H5zM7 5h1v1H7z" /></symbol>
     </svg>
 
@@ -71,10 +72,16 @@
                     <li><a href="#como-jugar">Controles</a></li>
                     <li><a href="#galeria">Galería</a></li>
                 </ul>
-                <a class="btn btn--primario btn--chico" href="#descargar">
-                    <svg class="icono" aria-hidden="true"><use href="#i-descarga" /></svg>
-                    <span>Descarga</span>
-                </a>
+                <div class="navbar__acciones">
+                    <a class="btn btn--primario btn--chico" href="#descargar">
+                        <svg class="icono" aria-hidden="true"><use href="#i-descarga" /></svg>
+                        <span>Descarga</span>
+                    </a>
+                    <a class="btn btn--secundario btn--chico navbar__privacidad" href="#privacidad">
+                        <svg class="icono" aria-hidden="true"><use href="#i-escudo" /></svg>
+                        <span>Aviso de privacidad</span>
+                    </a>
+                </div>
             </nav>
 
             <!-- Sonido: siempre empieza apagado -->
@@ -166,6 +173,35 @@
                         Ver el tráiler
                     </a>
                     <a class="btn btn--secundario" href="#viaje">Recorrer los niveles</a>
+                </div>
+
+                <!-- Clasificación del videojuego y emblema del proyecto -->
+                <div class="sellos" role="group" aria-label="Clasificación e identificación del juego">
+                    <div class="sello sello--clasificacion">
+                        <svg class="sello__insignia" viewBox="0 0 18 20" shape-rendering="crispEdges" role="img"
+                            aria-label="Clasificación A">
+                            <path class="ins-borde" d="M2 0h14v1h1v1h1v13h-1v1h-1v1h-2v1h-2v1h-1v1H7v-1H6v-1H4v-1H2v-1H1v-1H0V2h1V1h1z" />
+                            <path class="ins-fondo" d="M3 2h12v1h1v11h-1v1h-2v1h-2v1h-1v1H8v-1H7v-1H5v-1H3v-1H2V3h1z" />
+                            <path class="ins-luz" d="M3 2h12v1H3zM2 3h1v4H2z" />
+                            <path class="ins-sombra" d="M15 9h1v5h-1v1h-2v1h-2v1h-1v1H8v-1h2v-1h2v-1h2v-1h1z" />
+                            <path class="ins-letra" d="M7 4h4v1H7zM6 5h2v1H6zM10 5h2v1h-2zM5 6h2v8H5zM11 6h2v8h-2zM7 9h4v2H7z" />
+                            <path class="ins-letra-sombra" d="M5 14h2v1H5zM11 14h2v1h-2zM7 11h4v1H7z" />
+                        </svg>
+                        <span class="sello__texto">
+                            <span class="sello__titulo">Clasificación A</span>
+                            <span class="sello__detalle">Contenido apto para todo público</span>
+                        </span>
+                    </div>
+
+                    <div class="sello sello--proyecto">
+                        <span class="sello__emblema" aria-hidden="true">
+                            <span class="sprite sprite--manypig" data-anim="idle"></span>
+                        </span>
+                        <span class="sello__texto">
+                            <span class="sello__titulo sello__titulo--marca">Eco Aventura</span>
+                            <span class="sello__detalle">Juego educativo en pixel art</span>
+                        </span>
+                    </div>
                 </div>
 
                 <ul class="hero__datos">
@@ -1192,6 +1228,43 @@
             </div>
         </section>
 
+
+        <!-- =====================================================
+             13. AVISO DE PRIVACIDAD
+             Revisado contra el código (noviembre de 2026): sin formularios,
+             cuentas, cookies propias ni analítica. Solo localStorage
+             (volumen) y sessionStorage (aviso de instalación cerrado).
+             Si eso cambia, actualizar este texto.
+        ====================================================== -->
+        <section class="seccion seccion--tinta privacidad" id="privacidad" aria-labelledby="titulo-privacidad" data-ambiente="helado" data-hud="PRIVACIDAD">
+            <div class="contenedor privacidad__contenedor">
+                <article class="privacidad__panel revelar">
+                    <header class="privacidad__cabecera">
+                        <svg class="privacidad__icono" aria-hidden="true"><use href="#i-escudo" /></svg>
+                        <h2 class="privacidad__titulo" id="titulo-privacidad">Aviso de privacidad</h2>
+                    </header>
+
+                    <div class="privacidad__texto">
+                        <p>
+                            EcoAventura respeta tu privacidad. Este sitio web tiene fines informativos y
+                            educativos relacionados con nuestro videojuego. No solicitamos datos personales
+                            ni recopilamos información personal: no hay formularios, cuentas de usuario,
+                            cookies propias ni herramientas de analítica.
+                        </p>
+                        <p>
+                            Si en el futuro se incorporan formularios, cuentas de usuario o mecanismos de
+                            recopilación de datos, este aviso se actualizará para informar sobre su tratamiento.
+                        </p>
+                    </div>
+
+                    <footer class="privacidad__pie">
+                        <p class="privacidad__lema">EcoAventura | Protegiendo el medio ambiente también en el mundo digital.</p>
+                        <p class="privacidad__fecha">Última actualización: noviembre de 2026</p>
+                    </footer>
+                </article>
+            </div>
+        </section>
+
     </main>
 
 
@@ -1212,6 +1285,7 @@
                 <a href="#viaje">Niveles</a>
                 <a href="#jefes">Jefes</a>
                 <a href="#descargar">Descarga</a>
+                <a href="#privacidad">Aviso de privacidad</a>
             </nav>
 
             <p class="footer__legal">© 2026 EcoAventura. Proyecto escolar · Juntos por un mundo más verde.</p>

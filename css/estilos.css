@@ -594,7 +594,7 @@ p + p {
     display: flex;
     align-items: center;
     gap: var(--s-2);
-    width: min(1360px, 100% - 2 * var(--s-2));
+    width: min(1440px, 100% - 2 * var(--s-2));
     margin-inline: auto;
     min-height: 64px;
 }
@@ -655,6 +655,17 @@ p + p {
 .navbar__menu ul a[aria-current="true"] {
     color: var(--oro);
     border-bottom-color: var(--oro);
+}
+
+.navbar__acciones {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.navbar__privacidad {
+    font-size: 0.92rem;
+    white-space: nowrap;
 }
 
 .navbar__menu-btn {
@@ -1215,6 +1226,180 @@ body[data-zona="castillo"] { --zona-acento: var(--castillo-luz); }
 
 @keyframes aparecer {
     from { opacity: 0; translate: 0 24px; }
+}
+
+
+/* ---------- 8.1 Sellos de la portada: clasificación A y emblema ---------- */
+
+.sellos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: var(--s-3);
+}
+
+.sello {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 72px;
+    padding: 0.5rem 1rem 0.5rem 0.6rem;
+    color: var(--crema);
+    border: 4px solid transparent;
+    border-image: var(--marco-oro) 1 fill / 4px stretch;
+    background: rgb(26 31 59 / 0.9) padding-box;
+    filter: drop-shadow(0 6px 10px rgb(26 31 59 / 0.3));
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.sello--proyecto {
+    border-image-source: var(--marco-hud);
+    background-color: rgb(26 56 38 / 0.92);
+}
+
+/* Destello que cruza el sello, igual que el de los botones */
+.sello::after {
+    content: "";
+    position: absolute;
+    inset: -8px auto -8px 0;
+    width: 22px;
+    z-index: -1;
+    background: rgb(255 243 89 / 0.16);
+    opacity: 0;
+    transform: translateX(-60px) skewX(-18deg);
+    pointer-events: none;
+}
+
+.sello__insignia {
+    flex: none;
+    width: 54px;
+    height: 60px;
+    overflow: visible;
+}
+
+.ins-borde        { fill: var(--tinta-noche); }
+.ins-fondo        { fill: var(--vidrio); }
+.ins-luz          { fill: #8ee08f; }
+.ins-sombra       { fill: var(--hud-2); }
+.ins-letra        { fill: #fff; }
+.ins-letra-sombra { fill: var(--hud); }
+
+.sello__emblema {
+    position: relative;
+    flex: none;
+    width: 56px;
+    height: 56px;
+    border: 3px solid transparent;
+    border-image: var(--marco-oro) 1 / 3px stretch;
+    background: var(--cielo) padding-box;
+    overflow: hidden;
+}
+
+/* Arena del nivel 1 bajo los pies de ManyPig */
+.sello__emblema::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 9px;
+    background: var(--arena);
+    box-shadow: 0 -3px 0 var(--arena-2);
+}
+
+.sello__emblema .sprite {
+    --e: 1.5;
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
+    z-index: 1;
+    margin-left: -36px;
+    image-rendering: pixelated;
+}
+
+.sello__texto {
+    display: grid;
+    gap: 0.15rem;
+    line-height: 1.15;
+}
+
+.sello__titulo {
+    font-family: var(--f-pixel);
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--oro);
+}
+
+.sello__titulo--marca {
+    color: #fff;
+    -webkit-text-stroke: 0.1em var(--tinta);
+    paint-order: stroke fill;
+    text-shadow: 0 0.08em 0 var(--tinta);
+}
+
+.sello__detalle {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--crema);
+}
+
+/* En pantallas grandes los sellos ocupan el lado derecho de la portada,
+   junto al título, para que se vean sin desplazarse */
+@media (min-width: 1101px) {
+    .sellos {
+        position: absolute;
+        top: 0.5rem;
+        right: 0;
+        flex-direction: column;
+        align-items: stretch;
+        width: 372px;
+        margin: 0;
+    }
+}
+
+/* Animaciones: aparecen uno tras otro, flotan y brillan con calma */
+.js-movimiento .hero__contenido > .sellos { animation-delay: 1.2s !important; }
+.js-movimiento .hero__datos { animation-delay: 1.35s !important; }
+
+.js-movimiento .sello {
+    animation: sello-entra 0.75s var(--salida) both;
+}
+
+.js-movimiento .sello--clasificacion { animation-delay: 1.3s; }
+.js-movimiento .sello--proyecto      { animation-delay: 1.48s; }
+
+.js-movimiento .sello--clasificacion::after { animation: destello-sello 7s var(--salida) 2.4s infinite; }
+.js-movimiento .sello--proyecto::after      { animation: destello-sello 7s var(--salida) 5.9s infinite; }
+
+.js-movimiento .sello__insignia {
+    animation: flotar-sello 3.6s ease-in-out 2.1s infinite, brillo-insignia 3.6s ease-in-out 2.1s infinite;
+}
+
+.js-movimiento .sello__emblema {
+    animation: flotar-sello 3.6s ease-in-out 3.9s infinite;
+}
+
+@keyframes sello-entra {
+    from { opacity: 0; transform: translateY(14px) scale(0.94); }
+    to   { opacity: 1; transform: none; }
+}
+
+@keyframes flotar-sello {
+    0%, 100% { translate: 0 0; }
+    50%      { translate: 0 -4px; }
+}
+
+@keyframes brillo-insignia {
+    0%, 100% { filter: drop-shadow(0 0 0 rgb(255 205 30 / 0)); }
+    50%      { filter: drop-shadow(0 0 7px rgb(255 205 30 / 0.55)); }
+}
+
+@keyframes destello-sello {
+    0%        { opacity: 1; transform: translateX(-60px) skewX(-18deg); }
+    16%       { opacity: 1; transform: translateX(360px) skewX(-18deg); }
+    17%, 100% { opacity: 0; transform: translateX(360px) skewX(-18deg); }
 }
 
 
@@ -3368,6 +3553,108 @@ body[data-zona="castillo"] { --zona-acento: var(--castillo-luz); }
 
 
 /* =========================================================
+   13.1 AVISO DE PRIVACIDAD (al final de la página)
+========================================================= */
+
+.privacidad {
+    padding: var(--s-6) 0;
+    background:
+        url("../img/zonas/helado/cielo_noche.png") 50% 0 / auto 100% repeat-x,
+        var(--tinta-oscura);
+}
+
+.privacidad__contenedor {
+    max-width: 880px;
+}
+
+.privacidad__panel {
+    border: 5px solid transparent;
+    border-image: var(--marco-oro) 1 fill / 5px stretch;
+    background: rgb(26 31 59 / 0.94) padding-box;
+    padding: var(--s-4);
+    filter: drop-shadow(0 12px 22px rgb(10 12 28 / 0.45));
+}
+
+.privacidad__cabecera {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: var(--s-3);
+    padding-bottom: var(--s-2);
+    border-bottom: 3px dashed rgb(232 185 33 / 0.35);
+}
+
+.privacidad__icono {
+    flex: none;
+    width: 40px;
+    height: 40px;
+    fill: var(--oro);
+    image-rendering: pixelated;
+    shape-rendering: crispEdges;
+    filter: drop-shadow(0 3px 0 var(--oro-sombra));
+}
+
+.js-movimiento .privacidad__panel.mostrar .privacidad__icono {
+    animation: flotar-sello 3.6s ease-in-out 0.6s infinite;
+}
+
+.privacidad__titulo {
+    font-family: var(--f-pixel);
+    font-weight: 700;
+    font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.25rem);
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--oro);
+}
+
+.privacidad__texto p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--nube-2);
+    max-width: none;
+}
+
+.privacidad__texto a {
+    color: var(--oro);
+    text-underline-offset: 3px;
+}
+
+.privacidad__texto a:hover {
+    color: var(--oro-claro);
+}
+
+.privacidad__pie {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem var(--s-3);
+    margin-top: var(--s-3);
+    padding-top: var(--s-2);
+    border-top: 3px dashed rgb(232 185 33 / 0.35);
+}
+
+.privacidad__lema {
+    font-family: var(--f-pixel);
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--jungla-claro);
+}
+
+.privacidad__fecha {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--nube-3);
+    opacity: 0.85;
+}
+
+.privacidad__pie p + p {
+    margin-top: 0;
+}
+
+
+/* =========================================================
    14. VISOR DE IMÁGENES
 ========================================================= */
 
@@ -3533,6 +3820,36 @@ body[data-zona="castillo"] { --zona-acento: var(--castillo-luz); }
    16. RESPONSIVE
 ========================================================= */
 
+/* Barra completa en pantallas medianas: un poco más compacta para que
+   quepa «Aviso de privacidad» junto a «Descarga» sin saturar */
+@media (min-width: 1241px) and (max-width: 1499px) {
+    .navbar__barra {
+        gap: 0.75rem;
+    }
+
+    .marca__texto {
+        font-size: 1.15rem;
+    }
+
+    .navbar__menu {
+        gap: 0.75rem;
+    }
+
+    .navbar__menu ul a {
+        padding-inline: 0.4rem;
+        font-size: 0.93rem;
+    }
+
+    .audio__estado {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+}
+
 @media (max-width: 1240px) {
     :root {
         --alto-nav: 84px;
@@ -3575,6 +3892,14 @@ body[data-zona="castillo"] { --zona-acento: var(--castillo-luz); }
 
     .audio {
         margin-left: auto;
+    }
+
+    .navbar__acciones {
+        flex-wrap: wrap;
+    }
+
+    .navbar__acciones .btn {
+        flex: 1 1 14rem;
     }
 }
 
@@ -4069,3 +4394,67 @@ body[data-zona="castillo"] { --zona-acento: var(--castillo-luz); }
         transition: opacity 0.2s linear;
     }
 }
+
+
+/* =========================================================
+   17. SELLOS Y AVISO DE PRIVACIDAD EN CELULAR
+========================================================= */
+
+@media (max-width: 640px) {
+    .sellos {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+        margin-bottom: var(--s-2);
+    }
+
+    .sello {
+        gap: 0.5rem;
+        min-height: 60px;
+        padding: 0.4rem 0.55rem 0.4rem 0.4rem;
+        border-width: 3px;
+        border-image-width: 3px;
+    }
+
+    .sello__insignia {
+        width: 38px;
+        height: 42px;
+    }
+
+    .sello__emblema {
+        width: 42px;
+        height: 42px;
+    }
+
+    .sello__emblema .sprite {
+        --e: 1.125;
+        margin-left: -27px;
+        bottom: -3px;
+    }
+
+    .sello__titulo {
+        font-size: 0.92rem;
+    }
+
+    .sello__detalle {
+        font-size: 0.74rem;
+    }
+
+    .privacidad {
+        padding: var(--s-5) 0;
+    }
+
+    .privacidad__panel {
+        padding: var(--s-3) var(--s-2);
+    }
+
+    .privacidad__icono {
+        width: 32px;
+        height: 32px;
+    }
+
+    .privacidad__texto p {
+        font-size: 0.98rem;
+    }
+}
+
