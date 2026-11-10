@@ -13,6 +13,15 @@
     const cerrar = document.getElementById("aviso-instalar-cerrar");
     const boton = document.getElementById("aviso-instalar-btn");
     const CLAVE = "ecoaventura-aviso-instalar-cerrado";
+
+    // En celulares Android la notificación ofrece el demo APK en lugar del instalador de PC
+    if (/android/i.test(navigator.userAgent)) {
+        boton.setAttribute("href", "descargas/EcoAventura-Demo.apk");
+        const texto = document.getElementById("aviso-instalar-texto");
+        if (texto) texto.textContent = "Instala el demo de EcoAventura en tu celular y ayuda a ManyPig a limpiar la isla.";
+        const nota = aviso.querySelector(".aviso-instalar__nota");
+        if (nota) nota.textContent = "Demo Android · 60 MB · Gratis";
+    }
     let mostrado = false;
 
     function yaCerrado() {

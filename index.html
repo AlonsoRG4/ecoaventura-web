@@ -47,6 +47,8 @@
         <symbol id="i-pausa" viewBox="0 0 8 8"><path d="M1 1h2v6H1zM5 1h2v6H5z" /></symbol>
         <symbol id="i-sonido" viewBox="0 0 8 8"><path d="M0 3h2v2H0zM2 2h1v4H2zM3 1h1v6H3zM5 2h1v1H5zM6 3h1v2H6zM5 5h1v1H5z" /></symbol>
         <symbol id="i-escudo" viewBox="0 0 8 8"><path d="M1 0h6v1h1v3H7v2H6v1H5v1H3V7H2V6H1V4H0V1h1zM3 2v1H2v1h1v1h1V4h1V3h1V2H5v1H4V2z" /></symbol>
+        <symbol id="i-windows" viewBox="0 0 16 16"><path fill="#00a4ef" d="M1 1h6v6H1zM9 1h6v6H9zM1 9h6v6H1zM9 9h6v6H9z" /></symbol>
+        <symbol id="i-android" viewBox="0 0 16 16"><path fill="#3ddc84" d="M3 2h1v1H3zM4 3h1v1H4zM12 2h1v1h-1zM11 3h1v1h-1zM5 4h6v1H5zM3 5h10v1H3zM2 6h12v1H2zM1 7h14v5H1z" /><path fill="#1a1f3b" d="M4 8h2v2H4zM10 8h2v2h-2z" /></symbol>
         <symbol id="i-mudo" viewBox="0 0 8 8"><path d="M0 3h2v2H0zM2 2h1v4H2zM3 1h1v6H3zM5 2h1v1H5zM7 2h1v1H7zM6 3h1v2H6zM5 5h1v1H5zM7 5h1v1H7z" /></symbol>
     </svg>
 
@@ -1110,14 +1112,37 @@
                     <p>Descarga EcoAventura y únete a la misión por una isla limpia.</p>
 
                     <!--
-                        DESCARGA: instalador de Windows en descargas/EcoAventura-Instalador.exe
+                        DESCARGAS:
+                        - Windows: instalador en descargas/EcoAventura-Instalador.exe
+                        - Android: demo APK en descargas/EcoAventura-Demo.apk
                     -->
-                    <a class="btn btn--primario btn--grande" id="btn-descarga" href="descargas/EcoAventura-Instalador.exe" download
-                        data-disponible="true">
-                        <svg class="icono" aria-hidden="true"><use href="#i-descarga" /></svg>
-                        <span id="btn-descarga-texto">Descargar juego</span>
-                    </a>
-                    <p class="descarga__estado" id="descarga-estado">Gratis · Windows 10/11 · 36 MB</p>
+                    <div class="plataformas">
+                        <article class="plataforma" aria-labelledby="plataforma-windows">
+                            <svg class="plataforma__logo" role="img" aria-label="Logo de Windows"><use href="#i-windows" /></svg>
+                            <h3 class="plataforma__nombre" id="plataforma-windows">Windows</h3>
+                            <p class="plataforma__tipo">Juego completo para PC</p>
+                            <a class="btn btn--primario btn--grande" id="btn-descarga" href="descargas/EcoAventura-Instalador.exe" download
+                                data-disponible="true">
+                                <svg class="icono" aria-hidden="true"><use href="#i-descarga" /></svg>
+                                <span id="btn-descarga-texto">Descargar para PC</span>
+                            </a>
+                            <p class="descarga__estado" id="descarga-estado">Gratis · Windows 10/11 · 36 MB</p>
+                        </article>
+
+                        <article class="plataforma plataforma--android" aria-labelledby="plataforma-android">
+                            <span class="plataforma__etiqueta">Demo</span>
+                            <svg class="plataforma__logo" role="img" aria-label="Logo de Android"><use href="#i-android" /></svg>
+                            <h3 class="plataforma__nombre" id="plataforma-android">Android</h3>
+                            <p class="plataforma__tipo">Demo para celular con controles táctiles</p>
+                            <a class="btn btn--primario btn--grande" id="btn-descarga-android" href="descargas/EcoAventura-Demo.apk" download
+                                type="application/vnd.android.package-archive">
+                                <svg class="icono" aria-hidden="true"><use href="#i-descarga" /></svg>
+                                <span>Descargar APK</span>
+                            </a>
+                            <p class="descarga__estado">Gratis · Android · 60 MB</p>
+                            <p class="plataforma__nota">Al instalar, permite «instalar apps de origen desconocido» en tu celular.</p>
+                        </article>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1139,7 +1164,7 @@
                             </button>
                         </h3>
                         <div class="faq-answer" id="faq-1" hidden>
-                            <p>EcoAventura está pensado para jugarse en PC con teclado.</p>
+                            <p>EcoAventura está disponible para PC con Windows (juego completo, con teclado) y como demo para celulares Android (APK con controles táctiles).</p>
                         </div>
                     </div>
 
@@ -1191,7 +1216,7 @@
                             </button>
                         </h3>
                         <div class="faq-answer" id="faq-5" hidden>
-                            <p>No. Una vez descargado, el juego se ejecuta desde tu computadora.</p>
+                            <p>No. Una vez descargado, el juego se ejecuta desde tu computadora o tu celular.</p>
                         </div>
                     </div>
 
